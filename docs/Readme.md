@@ -11,5 +11,3 @@ Click through the components on the left and open the `.vuepress/config.js` file
 1.  Save all those component documentations in the docs folder
 1.  Launch a chokidar watcher to update each doc when needed
 1.  Start vuepress to visualize the obtained markdown files
-
-天嫩嫩

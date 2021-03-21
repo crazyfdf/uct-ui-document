@@ -5,14 +5,22 @@
 </template>
 
 <script>
+
 export default {
-  name: "uct-card",
-  components: {},
-  props: {},
-  data() {
-    return {};
+  components: {
+
   },
-  methods: {},
+  props: {
+
+  },
+  data () {
+    return {
+
+    };
+  },
+  methods: {
+
+  },
 };
 </script>
 

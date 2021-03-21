@@ -8,4 +8,4 @@ myvuepress:
       index: index.html
       error: 404.html
     region: ap-guangzhou
-    bucketName: uct-ui
+    bucketName: uct

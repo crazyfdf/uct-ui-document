@@ -6,6 +6,7 @@ bin-release/
 node_modules
 .serverless
 dist
+.env_temp
 
 # Other files and folders
 .settings/
