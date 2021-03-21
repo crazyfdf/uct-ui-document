@@ -1,0 +1,25 @@
+{
+  "name": "uct-ui",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "vuepress": "vuepress dev docs",
+    "comeMd": "vue-docgen --watch",
+    "docs": "concurrently \"vue-docgen --watch\" \"vuepress dev docs\"",
+    "build": "vue-docgen && vuepress build docs"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://gitee.com/huolingmengling/uct-ui.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "concurrently": "^6.0.0"
+  },
+  "devDependencies": {
+    "vue-docgen-cli": "^4.36.1",
+    "vuepress": "^1.8.2"
+  }
+}
