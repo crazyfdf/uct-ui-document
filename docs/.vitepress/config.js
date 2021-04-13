@@ -1,12 +1,17 @@
 const path = require('path')
 const glob = require('globby')
 const cwd = path.join(__dirname, '..')
+const dest = path.join(__dirname, '../../dist')
+
 const { parse } = require('vue-docgen-api')
 
 const { renameComponentMd } = require('./fileinit.js')
-var vuePressConfig = async () => {
+var vitePressConfig = async () => {
   renameComponentMd(cwd + '/components')
-  const docFiles = glob.sync('components/**/*.md', { cwd }).map(f => '/' + f)
+  const routerFiles = glob.sync('components/**/*.md', { cwd }).map(f => {
+    let text = f.slice(f.lastIndexOf("/") + 1, -3)
+    return { text, link: `/${f.slice(0, -2)}html` }
+  })
   const components = await Promise.all(
     glob
       .sync('../../components/**/[a-z].{vue,jsx,ts,tsx}', { cwd, absolute: true })
@@ -19,9 +24,9 @@ var vuePressConfig = async () => {
   )
   //引入fs文件目录模块
   return {
-    dest: path.join(__dirname, '/dist'),
+    title: 'VitePress DocGen Live',
+    dest: dest,
     base: '/',
-    title: 'VuePress DocGen Live',
     themeConfig: {
       search: true,
       editLinks: true,
@@ -30,7 +35,7 @@ var vuePressConfig = async () => {
         { text: 'gitee', link: 'https://gitee.com/huolingmengling/uct-ui/tree/master/' },
 
       ],
-      sidebar: docFiles,
+      sidebar: routerFiles,
       markdown: { // 为每个代码块显示行号
         lineNumbers: true
       },
@@ -49,5 +54,4 @@ var vuePressConfig = async () => {
     ]
   }
 }
-vuePressConfig()
-module.exports = vuePressConfig;
+module.exports = vitePressConfig();

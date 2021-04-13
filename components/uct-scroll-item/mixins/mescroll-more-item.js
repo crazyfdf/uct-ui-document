@@ -16,12 +16,12 @@ const MescrollMoreItemMixin = {
   // #endif
   data () {
     return {
-      downOption: {
-        auto: false // 不自动加载
-      },
-      upOption: {
-        auto: false // 不自动加载
-      },
+      /*       downOption: {
+              auto: false // 不自动加载
+            },
+            upOption: {
+              auto: false // 不自动加载
+            }, */
       isInit: false // 当前tab是否已初始化
     }
   },

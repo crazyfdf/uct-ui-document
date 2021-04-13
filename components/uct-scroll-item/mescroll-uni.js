@@ -367,13 +367,16 @@ MeScroll.prototype.getAngle = function (p1, p2) {
 }
 
 /* 触发下拉刷新 */
-MeScroll.prototype.triggerDownScroll = function () {
+MeScroll.prototype.triggerDownScroll = function (show = true) {
   if (this.optDown.beforeLoading && this.optDown.beforeLoading(this))
   {
     //return true则处于完全自定义状态
   } else
   {
-    this.showDownScroll(); // 下拉刷新中...
+    if (show)
+    {
+      this.showDownScroll(); // 下拉刷新中...
+    }
     !this.optDown.native && this.optDown.callback && this.optDown.callback(this); // 执行回调,联网加载数据
   }
 }

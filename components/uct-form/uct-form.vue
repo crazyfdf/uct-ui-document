@@ -1,14 +1,14 @@
 <template>
-  <view :style="{
-    'margin-top':`${top}rpx`,
-    'margin-bottom':`${bottom}rpx`
-  }">
-    <slot></slot>
-    <view v-for="(item,key) in formList"
+  <view>
+    <!-- @slot @slot 自定义的其他表单组件，提交参数通过more传递  
+      -->
+    <slot name='more'></slot>
+    <view v-for="(item,index) in formList"
           v-if="formList.length"
-          :key="key">
+          :key="index">
       <uct-form-item @mapData="mapData"
                      class="mb40"
+                     :ref="`formItem${index}`"
                      @input="changeInput"
                      @upImage="upImage"
                      :config="formData.config"
@@ -21,52 +21,44 @@
 
 <script>
 import "../../libs/utils/aop.js";
+
+/**
+ * 表单业务组件，专门为表单而设计的，利用它可以快速实现表单验证、提交、增删改查等功能。
+ * @displayName Uct Form
+ */
+
 export default {
   props: {
-    /* form提交其他参数 */
+    /** form提交其他参数
+     * @binding {object}  more {key:value}
+     */
     more: {
       type: Object,
       default() {
         return {};
       },
     },
-    /* 直接拿到form数据和form表单名二选一 */
+    /** 直接拿到form数据和form表单名二选一 */
     formData: {
       type: Object,
       default() {
         return {};
       },
     },
-    /* 通过form表单名拿到from数据 */
+    /** 通过form表单名拿到from数据 */
     name: {
-      type: String,
-      default() {
-        return "";
-      },
-    },
-    /* form id 修改拿到初始值用 */
-    form_id: {
-      type: String,
-      default() {
-        return "";
-      },
-    },
-    /* 提交url */
-    url: {
       type: String,
       default: "",
     },
-    top: {
-      type: Number,
-      default() {
-        return 0;
-      },
+    /** form id 修改表单时拿到初始值用 */
+    form_id: {
+      type: String,
+      default: "",
     },
-    bottom: {
-      type: Number,
-      default() {
-        return 120;
-      },
+    /** 提交url */
+    url: {
+      type: String,
+      default: "",
     },
   },
   data() {
@@ -122,24 +114,35 @@ export default {
     changeInput(data) {
       Object.assign(this.data, data);
     },
-    /* 提交表单 */
+
     submit() {
-      let that = this;
-      if (that.form_id) {
-        that.more.id = that.form_id;
+      if (this.form_id) {
+        this.more.id = this.form_id;
       }
-      let data = Object.assign(that.data, that.more);
-      console.log(that.data);
-      that.$tools.showLoading("正在提交", true, 1000);
-      if (that.url) {
-        that.$api(that.url, { ...data }).then((res) => {
+      let data = Object.assign(this.data, this.more);
+      console.log(this.data);
+      this.$tools.showLoading("正在提交", true, 1000);
+      if (this.url) {
+        this.$api(this.url, { ...data }).then((res) => {
           console.log(res);
           if (res.code == "000") {
-            that.$emit("submit", data);
+            /**
+             * 表单提交事件
+             * @event submit
+             * @property {Object} data 表单提交数据
+             * @params  {Object} data
+             */
+            this.$emit("submit", data);
           }
         });
       } else {
-        that.$emit("submit", data);
+        /**
+         * 表单提交事件
+         * @event submit
+         * @property {Object} data 表单提交数据
+         * @params  {Object} data
+         */
+        this.$emit("submit", data);
       }
     },
     /* 清除表单 */
@@ -148,54 +151,57 @@ export default {
     },
     /* 提交表单前的判断条件 */
     rules() {
-      let that = this;
-      let rules = {};
-      for (let item of that.formList) {
-        if (item.rules) {
-          for (let item1 of item.rules) {
-            item1.name = item.model;
-            item1.type = item1.pattern;
-          }
-        } else if (item.list) {
-          for (let item2 of item.list) {
-            if (item2.rules) {
-              for (let item3 of item2.rules) {
-                item3.name = item2.model;
-                item3.type = item3.pattern;
+      if (this.formData.config.hideRequiredMark) {
+        let that = this;
+        let rules = {};
+        for (let item of that.formList) {
+          if (item.rules) {
+            for (let item1 of item.rules) {
+              item1.name = item.model;
+              item1.type = item1.pattern;
+            }
+          } else if (item.list) {
+            for (let item2 of item.list) {
+              if (item2.rules) {
+                for (let item3 of item2.rules) {
+                  item3.name = item2.model;
+                  item3.type = item3.pattern;
+                }
+              } else {
+                continue;
               }
-            } else {
-              continue;
+              rules = that.$uct.rules(that.data, item2.rules);
+              if (!rules.isOk) {
+                break;
+              }
             }
-            rules = that.$uct.rules(that.data, item2.rules);
-            console.log(rules);
             if (!rules.isOk) {
-              break;
+              uni.showToast({
+                icon: "none",
+                title: rules.message,
+              });
+              return false;
             }
+          } else {
+            continue;
           }
+          rules = that.$uct.rules(that.data, item.rules);
           if (!rules.isOk) {
-            uni.showToast({
-              icon: "none",
-              title: rules.message,
-            });
-            return false;
+            break;
           }
-        } else {
-          continue;
         }
-        rules = that.$rules.rules(that.data, item.rules);
-        console.log(that.data, item.rules, rules);
         if (!rules.isOk) {
-          break;
+          uni.showToast({
+            icon: "none",
+            title: rules.message,
+          });
+          return false;
         }
+        return true;
       }
-      if (!rules.isOk) {
-        uni.showToast({
-          icon: "none",
-          title: rules.message,
-        });
-        return false;
-      }
-      return true;
+      this.formList.forEach((item, index) => {
+        this.$refs[`formItem${index}`][0].rule();
+      });
     },
   },
 };

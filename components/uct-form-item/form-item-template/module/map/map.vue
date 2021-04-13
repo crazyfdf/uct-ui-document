@@ -70,7 +70,7 @@
 </template>
 
 <script>
-import { qqmapsdk } from "../../../../../common/config/env.js";
+import { qqmapsdk } from "../../../../../libs/config/env.js";
 export default {
   data() {
     return {

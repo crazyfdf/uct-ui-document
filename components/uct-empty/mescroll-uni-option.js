@@ -10,7 +10,9 @@ const GlobalOption = {
     textErr: '加载失败', // 加载失败的文本
     beforeEndDelay: 100, // 延时结束的时长 (显示加载成功/失败的时长)
     offset: 80, // 在列表顶部,下拉大于80px,松手即可触发下拉刷新的回调
-    native: false // 是否使用系统自带的下拉刷新; 默认false; 仅在mescroll-body生效 (值为true时,还需在pages配置enablePullDownRefresh:true;详请参考mescroll-native的案例)
+    native: false, // 是否使用系统自带的下拉刷新; 默认false; 仅在mescroll-body生效 (值为true时,还需在pages配置enablePullDownRefresh:true;详请参考mescroll-native的案例)
+    use: true,//是否启用下拉刷新如果配置false,则不会初始化下拉刷新的布局
+    auto: false,//是否在初始化完毕之后自动执行一次下拉刷新的回调 callback
   },
   up: {
     // 其他up的配置参数也可以写,这里只展示了常用的配置:

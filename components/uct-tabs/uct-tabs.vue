@@ -7,22 +7,24 @@
                  :id="viewId"
                  :scroll-left="scrollLeft"
                  scroll-x
-                 scroll-with-animation
+                 :scroll-with-animation="animation"
                  :scroll-animation-duration="300">
       <view class="tabs-item"
             :class="{'tabs-flex':!isScroll, 'tabs-scroll':isScroll}">
         <!-- tab -->
         <view class="tab-item"
-              :style="{width: tabWidthVal, height: tabHeightVal, 'line-height':tabHeightVal,color: value===i?cColor:''}"
+              :style="{marginRight: tabRightVal, height: tabHeightVal, 'line-height':tabHeightVal,color: value===i?cColor:''}"
               v-for="(tab, i) in tabs"
-              :class="{'active': value===i}"
+              :class="value===i?'active':'c-gray'"
               :key="i"
               @click="tabClick(i)">
           {{getTabName(tab)}}
+          <!-- 下划线 -->
+          <view class="tabs-line"
+                v-show="value===i"
+                :id="`tabs${i}`"
+                :style="{backgroundColor: blColor,width:tabRightVal?'120%':'150rpx'}"></view>
         </view>
-        <!-- 下划线 -->
-        <view class="tabs-line"
-              :style="{backgroundColor: blColor,left:lineLeft}"></view>
       </view>
     </scroll-view>
   </view>
@@ -50,22 +52,20 @@ export default {
     },
     fixed: Boolean, // 是否悬浮,默认false
     tabWidth: Number, // 每个tab的宽度,默认不设置值,为flex平均分配; 如果指定宽度,则不使用flex,每个tab居左,超过则水平滑动(单位默认rpx)
+    tabRight: Number, //tab的偏移量
     height: {
       // 高度,单位rpx
       type: Number,
       default: 80,
     },
-    //背景颜色
     bcColor: {
       type: String,
       default: "transparent",
     },
-    // 字体颜色
     cColor: {
       type: String,
-      default: "#479ff7",
+      default: "#000",
     },
-    // 下划线颜色
     blColor: {
       type: String,
       default: "#479ff7",
@@ -75,11 +75,14 @@ export default {
     return {
       viewId: "id_" + Math.random().toString(36).substr(2, 16),
       scrollLeft: 0,
+      animation: true,
+      valueIndex: `tabs${this.value}`,
+      oldScrollLeft: 0,
     };
   },
   computed: {
     isScroll() {
-      return this.tabWidth && this.tabs.length; // 指定了tabWidth的宽度,则支持水平滑动
+      return this.tabRight && this.tabs.length; // 指定了tabWidth的宽度,则支持水平滑动
     },
     tabHeightPx() {
       return uni.upx2px(this.height);
@@ -90,27 +93,24 @@ export default {
     tabWidthPx() {
       return uni.upx2px(this.tabWidth);
     },
+    tabRightPx() {
+      return uni.upx2px(this.tabRight);
+    },
     tabWidthVal() {
       return this.isScroll ? this.tabWidthPx + "px" : "";
     },
-    lineLeft() {
-      if (this.isScroll) {
-        return this.tabWidthPx * this.value + this.tabWidthPx / 2 + "px"; // 需转为px (用rpx的话iOS真机显示有误差)
-      } else {
-        return (
-          (100 / this.tabs.length) * (this.value + 1) -
-          100 / (this.tabs.length * 2) +
-          "%"
-        );
-      }
+    tabRightVal() {
+      return this.isScroll ? this.tabRightPx + "px" : "";
     },
   },
   watch: {
     tabs() {
       this.warpWidth = null; // 重新计算容器宽度
+      this.valueIndex = `tabs${this.value}`;
       this.scrollCenter(); // 水平滚动到中间
     },
-    value() {
+    value(v) {
+      this.valueIndex = `tabs${v}`;
       this.scrollCenter(); // 水平滚动到中间
     },
   },
@@ -133,7 +133,19 @@ export default {
           ? rect.width
           : uni.getSystemInfoSync().windowWidth; // 某些情况下取不到宽度,暂时取屏幕宽度
       }
-      let tabLeft = this.tabWidthPx * this.value + this.tabWidthPx / 2; // 当前tab中心点到左边的距离
+      setTimeout(async () => {
+        const query = uni.createSelectorQuery().in(this);
+        await query
+          .select("#" + this.valueIndex)
+          .boundingClientRect((data) => {
+            let left = Math.abs(data.left + this.oldScrollLeft);
+            let diff = left - this.warpWidth / 2;
+            this.scrollLeft = diff;
+            this.oldScrollLeft = this.scrollLeft;
+          })
+          .exec();
+      }, 100);
+      /*       let tabLeft = this.tabWidthPx * this.value + this.tabWidthPx / 2; // 当前tab中心点到左边的距离
       let diff = tabLeft - this.warpWidth / 2; // 如果超过tabs容器的一半,则滚动差值
       this.scrollLeft = diff;
       // #ifdef MP-TOUTIAO
@@ -142,7 +154,8 @@ export default {
         // 字节跳动小程序,需延时再次设置scrollLeft,否则tab切换跨度较大时不生效
         this.scrollLeft = Math.ceil(diff);
       }, 400);
-      // #endif
+      // #endif 
+      */
     },
     initWarpRect() {
       return new Promise((resolve) => {
@@ -171,9 +184,10 @@ export default {
 <style lang="scss">
 .me-tabs {
   position: relative;
-  font-size: 28rpx;
+  font-size: 30rpx;
   box-sizing: border-box;
   overflow-y: hidden;
+  width: 100%;
   &.tabs-fixed {
     z-index: 990;
     position: fixed;
@@ -215,12 +229,12 @@ export default {
   .tabs-line {
     z-index: 1;
     position: absolute;
-    bottom: 30rpx; // 至少与.tabs-item的padding-bottom一致,才能保证在底部边缘
-    width: 100rpx;
+    left: 50%;
+    bottom: 0; // 至少与.tabs-item的padding-bottom一致,才能保证在底部边缘
     height: 6rpx;
     transform: translateX(-50%);
     border-radius: 4rpx;
-    transition: left 0.3s;
+    // transition: left 0.3s;
   }
 }
 </style>

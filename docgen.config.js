@@ -18,5 +18,15 @@ module.exports = {
   //   // 如果组件是功能性的，则显示为标记的静态模板
   //   functionalTag: '**functional**'
   // },
+  // sections: [
+  //   {
+  //     name: 'Form表单',
+  //     content: 'docs/components/uct-form/uct-form.md'
+  //   },
+  //   {
+  //     name: 'Scroll列表',
+  //     content: 'docs/components/uct-scroll/uct-scroll.md',
+  //   }
+  // ],
   require: [path.join(__dirname, 'global.requires.js')]
 }
