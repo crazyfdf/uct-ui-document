@@ -26,13 +26,24 @@ import MescrollEmpty from '@/components/mescroll-uni/components/mescroll-empty.v
 <script>
 // 引入全局配置
 import GlobalOption from "./mescroll-uni-option.js";
+
+/**
+ * 空布局组件，当列表或者页面内容为空白时可使用，可快速实现空白页图片提示，文字提示，按钮操作功能
+ * @displayName Empty空布局
+ */
 export default {
+  name: "uct-empty",
   props: {
-    // empty的配置项: 默认为GlobalOption.up.empty
+    /**  empty的配置项: 默认为GlobalOption.up.empty */
     option: {
       type: Object,
       default() {
-        return {};
+        return {
+          use: true, // 是否显示空布局
+          icon: "/static/imgs/public/mescroll-empty.png", // 图标路径 (建议放入static目录, 如 /static/img/mescroll-empty.png )
+          tip: "~ 空空如也 ~", // 提示
+          btnText: "", //button的内容文字，为空时不显示button
+        };
       },
     },
   },
@@ -54,6 +65,10 @@ export default {
   methods: {
     // 点击按钮
     emptyClick() {
+      /**
+       * 点击按钮回调
+       * @event emptyclick
+       */
       this.$emit("emptyclick");
     },
   },

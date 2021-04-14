@@ -21,7 +21,7 @@ var vuePressConfig = async () => {
   return {
     dest: path.join(__dirname, '/dist'),
     base: '/',
-    title: 'VuePress DocGen Live',
+    title: 'UCT UI',
     themeConfig: {
       search: true,
       editLinks: true,

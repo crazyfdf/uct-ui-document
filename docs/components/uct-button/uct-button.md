@@ -1,21 +1,21 @@
-# uct-button
+# Button 按钮
+
+> 按钮组件，主要提供加载中动画和防抖功能
 
 ## Props
 
-| Prop name | Description | Type            | Values | Default                                                       |
-| --------- | ----------- | --------------- | ------ | ------------------------------------------------------------- |
-| text      |             | string          | -      |                                                               |
-| rotate    |             | boolean\|string | -      | false                                                         |
-| disabled  |             | boolean\|string | -      | false                                                         |
-| bgColor   |             | string          | -      | "linear-gradient(to right, rgba(0,0,0,0.7), rgba(0,0,0,0.6))" |
-| fontColor |             | string          | -      | "#FFFFFF"                                                     |
-| type      |             | string          | -      |                                                               |
-| data      |             | object          | -      | {}                                                            |
+| Prop name | Description  | Type            | Values | Default                                                       |
+| --------- | ------------ | --------------- | ------ | ------------------------------------------------------------- |
+| text      | 显示文本     | string          | -      | ""                                                            |
+| rotate    | 是否启动加载 | boolean\|string | -      | false                                                         |
+| disabled  | 是否禁用     | boolean\|string | -      | false                                                         |
+| bgColor   | 按钮背景颜色 | string          | -      | "linear-gradient(to right, rgba(0,0,0,0.7), rgba(0,0,0,0.6))" |
+| fontColor | 按钮字体颜色 | string          | -      | "#FFFFFF"                                                     |
 
 ## Events
 
-| Event name     | Properties | Description |
-| -------------- | ---------- | ----------- |
+| Event name     | Properties | Description  |
+| -------------- | ---------- | ------------ |
 | contact        |            |
 | error          |            |
 | getphonenumber |            |
@@ -27,7 +27,7 @@
 | touchend       |            |
 | touchmove      |            |
 | touchstart     |            |
-| click          |            |
+| click          |            | 点击按钮回调 |
 
 ## Slots
 

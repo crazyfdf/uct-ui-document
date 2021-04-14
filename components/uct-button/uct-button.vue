@@ -27,58 +27,47 @@
 </template>
 
 <script>
-import { debounce } from "../../libs/utils/interactive.js";
-
+/**
+ * 按钮组件，主要提供加载中动画和防抖功能
+ * @displayName Button按钮
+ */
 export default {
+  name: "uct-button",
   props: {
-    text: String, //显示文本
+    /** 显示文本 */
+    text: { type: String, default: "" },
+    /** 是否启动加载 */
     rotate: {
-      //是否启动加载
       type: [Boolean, String],
       default: false,
     },
+    /** 是否禁用 */
     disabled: {
-      //是否禁用
       type: [Boolean, String],
       default: false,
     },
+    /** 按钮背景颜色 */
     bgColor: {
-      //按钮背景颜色
       type: String,
       default: "linear-gradient(to right, rgba(0,0,0,0.7), rgba(0,0,0,0.6))",
     },
+    /** 按钮字体颜色 */
     fontColor: {
-      //按钮字体颜色
       type: String,
       default: "#FFFFFF",
     },
-    type: {
-      //按钮操作类型
-      type: String,
-      defalut: "",
-    },
-    data: {
-      //数据
-      type: Object,
-      default() {
-        return {};
-      },
-    },
   },
-  /*   computed: {
-    rotate1() {
-      //处理值
-      return String(this.rotate) !== "false";
-    },
-  }, */
   data() {
     return {
       rotate1: false,
     };
   },
   methods: {
-    // @debounce(1000, true)
     btnClick(e) {
+      /**
+       * 点击按钮回调
+       * @event click
+       */
       this.$emit("click", e);
       if (this.rotate) {
         this.rotate1 = true;
@@ -88,7 +77,7 @@ export default {
       }
     },
     debounce(e) {
-      debounce.canDoFunction({
+      this.$uct.debounce.canDoFunction({
         key: "submit", //基于此值判断是否可以操作，如两个方法传入了同样的key，则会混淆，建议传入调用此事件的方法名，简单好梳理
         time: 5000, //如果传入time字段，则为定时器后，自动解除锁定状态，单位（毫秒）
         success: () => {

@@ -1,7 +1,7 @@
 <!--
  * @Author: 祸灵
  * @Date: 2021-02-24 16:18:53
- * @LastEditTime: 2021-04-13 19:18:28
+ * @LastEditTime: 2021-04-14 10:42:51
  * @LastEditors: 祸灵
  * @Description: 通用列表组件
  * @FilePath: \uct-ui\components\uct-scroll\uct-scroll.vue
@@ -26,6 +26,7 @@
                 :cColor="cColor"
                 :tabRight="tabRight"
                 @change="tabChange"></uct-tabs>
+      <!-- @slot 支持列表右侧自定义内容 -->
       <slot name="moreTab"></slot>
     </view>
 
@@ -35,8 +36,8 @@
                      :ref="'uctscroll'+index"
                      v-for="(item,index) in tabs"
                      :key="index"
-                     @downCallback="$emit('downCallback')"
-                     @success="(list)=>$emit('success',list)"
+                     @downCallback="downCallback"
+                     @success="success"
                      :url="item.url"
                      :api="item.api"
                      :more="item.more"
@@ -54,8 +55,8 @@
                        :ref="'uctscroll'+index"
                        v-for="(item,index) in tabs"
                        :key="index"
-                       @downCallback="$emit('downCallback')"
-                       @success="(list)=>$emit('success',list)"
+                       @downCallback="downCallback"
+                       @success="success"
                        :url="item.url"
                        :api="item.api"
                        :more="item.more"
@@ -65,6 +66,7 @@
                        :upOption="upOption"
                        :top="top1"
                        :bottom="bottom">
+        <!-- @slot 支持列表内容插槽 -->
         <slot></slot>
       </uct-scroll-item>
     </view>
@@ -74,12 +76,15 @@
 <script>
 /**
  * 列表业务组件，专门为列表而设计的，利用它可以快速实现列表上拉加载、下拉刷新、切换列表、空页面、滑至顶部、触底提示等功能。
+ * @displayName Scroll列表
  */
 export default {
+  name: "uct-scroll",
   props: {
-    /** form提交其他参数
-     * @binding {object}  more {key:value}
-     *
+    /**
+     * 每个子列表的配置项，当tabs.length>1时显示列表栏
+     * @values [{name: "列表名1",more: {}, url: "",list: []},
+     {name: "列表名2",more: {}, url: "",list: []}]
      */
     tabs: {
       type: Array,
@@ -87,71 +92,82 @@ export default {
         return [];
       },
     },
+    /**
+     * 是否开启懒加载
+     * @values true,false
+     */
     lazy: {
       type: Boolean | String,
-      default() {
-        return true;
-      },
+      default: true,
     },
+    /**
+     * 是否显示搜索框
+     * @values true,false
+     */
     search: {
       type: Boolean,
-      default() {
-        return false;
-      },
+      default: false,
     },
+    /** 当前列表下标 */
     tabIndex: {
       type: Number,
       default: 0,
     },
+    /**  当前列表内容距离顶部高度  */
     top: {
       type: Number | String,
-      default() {
-        return 0;
-      },
+      default: 0,
     },
+    /** 当前列表内容距离底部高度，单位rpx */
     bottom: {
       type: Number,
-      default() {
-        return 120;
-      },
+      default: 120,
     },
+    /** 列表栏高度，单位rpx */
     tabsHeight: {
       type: Number,
-      default() {
-        return 80;
-      },
+      default: 80,
     },
+    /** 列表栏标签间的间距，单位rpx，为0时为flex布局 */
     tabRight: {
       type: Number,
       default: 0,
     },
+    /** 列表栏背景颜色 */
     bcColor: {
       type: String,
       default: "#fff",
     },
+    /** 列表栏字体颜色 */
     cColor: {
       type: String,
       default: "#000",
     },
+    /** 列表栏下划线颜色 */
     blColor: {
       type: String,
       default: "#479ff7",
     },
-    searchTop: "top:80rpx",
+    /** 搜索栏离顶部距离 */
+    searchTop: {
+      type: Number,
+      default: 80,
+    },
+    /** 列表下拉配置 */
     downOption: {
       type: Object,
       default() {
         return {
-          auto: false, // 不自动加载 (mixin已处理第一个tab触发downCallback)
+          auto: false, // 不自动加载
         };
       },
     },
+    /** 列表上拉配置 */
     upOption: {
       type: Object,
       default() {
         return {
           auto: false, // 不自动加载
-          noMoreSize: 4, //如果列表已无数据,可设置列表的总数量要大于半页才显示无更多数据;避免列表数据过少(比如只有一条数据),显示无更多数据会不好看; 默认5
           empty: {
             tip: "~ 空空如也 ~", // 提示
           },
@@ -191,13 +207,41 @@ export default {
   methods: {
     tabChange(i) {
       if (this.tabs[i].isMore) {
+        /**
+         * 切换列表自定义事件回调
+         * @event moreChange
+         * @property {number} i 切换的列表下标
+         * @params {number} i
+         */
         this.$emit("moreChange", i);
       } else {
+        /**
+         * 切换列表默认事件事件回调
+         * @event change
+         * @property {number} i 切换的列表下标
+         * @params {number} i
+         */
         this.$emit("change", i);
       }
     },
     reload() {
       this.$refs[`uctscroll${this.tabIndex}`][0].downCallback();
+    },
+    success(list) {
+      /**
+       * 上拉加载成功回调
+       * @event success
+       * @property {array} list 加载后的数据
+       * @params {array} list
+       */
+      this.$emit("success", list);
+    },
+    downCallback() {
+      /**
+       * 下拉刷新回调
+       * @event downCallback
+       */
+      this.$emit("downCallback");
     },
     /*     searchChange(value) {
         let pageNum = this.searchPage.num; // 页码, 默认从1开始

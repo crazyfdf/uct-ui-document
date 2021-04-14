@@ -24,7 +24,7 @@ var vitePressConfig = async () => {
   )
   //引入fs文件目录模块
   return {
-    title: 'VitePress DocGen Live',
+    title: 'Uct UI',
     dest: dest,
     base: '/',
     themeConfig: {

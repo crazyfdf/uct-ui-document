@@ -1,6 +1,6 @@
 <template>
   <view>
-    <!-- @slot @slot 自定义的其他表单组件，提交参数通过more传递  
+    <!-- @slot 自定义的其他表单组件，提交参数通过more传递  
       -->
     <slot name='more'></slot>
     <view v-for="(item,index) in formList"
@@ -24,13 +24,13 @@ import "../../libs/utils/aop.js";
 
 /**
  * 表单业务组件，专门为表单而设计的，利用它可以快速实现表单验证、提交、增删改查等功能。
- * @displayName Uct Form
+ * @displayName Form表单
  */
 
 export default {
   props: {
     /** form提交其他参数
-     * @binding {object}  more {key:value}
+     * @values {key:value}
      */
     more: {
       type: Object,
@@ -139,8 +139,8 @@ export default {
         /**
          * 表单提交事件
          * @event submit
-         * @property {Object} data 表单提交数据
-         * @params  {Object} data
+         * @property {object} data 表单提交数据
+         * @params {object} data
          */
         this.$emit("submit", data);
       }

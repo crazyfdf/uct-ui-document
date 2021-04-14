@@ -10,6 +10,7 @@
                   :top="top"
                   :bottom="bottom">
       <view class="scroll">
+        <!-- @slot 列表内容 -->
         <slot></slot>
       </view>
     </mescroll-uni>
@@ -20,60 +21,74 @@
 import MescrollMixin from "./mescroll-mixins.js";
 import MescrollUni from "./mescroll-uni.vue";
 
+/**
+ * 列表子组件，为uct-scroll组件提供支持，用来显示单个列表组件内容以及上拉加载、下拉刷新、切换列表、空页面、滑至顶部、触底提示等功能。
+ * @displayName ScrollItem子列表
+ */
+
 export default {
+  name: "uct-scroll-item",
   mixins: [MescrollMixin], // 使用mixin
   components: {
     MescrollUni,
   },
   props: {
+    /** 列表当前下标 */
     tabIndex: {
       type: Number,
       default: 0,
     },
+    /** 列表下标 */
     index: {
       type: Number,
       default: 0,
     },
+    /** 接口数据内容所在位置 */
     api: {
       type: String,
       default: "result.content",
     },
+    /** 接口请求参数，为false时表示不请求接口，默认{} */
     more: {
       type: Object | Boolean,
       default() {
         return {};
       },
     },
+    /** 接口url */
     url: {
       type: String,
       default: "",
     },
+    /** 列表离顶部距离 */
     top: {
       type: Number,
       default() {
-        return 200;
+        return 30;
       },
     },
+    /** 列表离底部距离 */
     bottom: {
       type: Number,
       default() {
         return 120;
       },
     },
+    /** 列表下拉配置 */
     downOption: {
       type: Object,
       default() {
         return {
-          auto: false, // 不自动加载 (mixin已处理第一个tab触发downCallback)
+          auto: false, // 不自动加载
         };
       },
     },
+    /** 列表上拉配置 */
     upOption: {
       type: Object,
       default() {
         return {
           auto: false, // 不自动加载
-          noMoreSize: 4, //如果列表已无数据,可设置列表的总数量要大于半页才显示无更多数据;避免列表数据过少(比如只有一条数据),显示无更多数据会不好看; 默认5
           empty: {
             tip: "~ 空空如也 ~", // 提示
           },
@@ -133,6 +148,12 @@ export default {
             //设置列表数据
             if (page.num == 1) this.list = []; //如果是第一页需手动制空列表
             this.list = this.list.concat(res); //追加新数据
+            /**
+             * 上拉加载成功回调
+             * @event success
+             * @property {array} list 加载后的数据
+             * @params {array} list
+             */
             this.$emit("success", this.list);
           })
           .catch(() => {
@@ -141,6 +162,10 @@ export default {
           });
       } else {
         if (this.isDown) {
+          /**
+           * 下拉刷新回调
+           * @event downCallback
+           */
           this.$emit("downCallback");
         }
         this.isDown = true;
