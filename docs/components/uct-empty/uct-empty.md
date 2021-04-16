@@ -4,9 +4,9 @@
 
 ## Props
 
-| Prop name | Description                                  | Type   | Values | Default                                                                                                                                                                                                                                                       |
-| --------- | -------------------------------------------- | ------ | ------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| option    | empty 的配置项: 默认为 GlobalOption.up.empty | object | -      | {<br> use: true, // 是否显示空布局<br> icon: "/static/imgs/public/mescroll-empty.png", // 图标路径 (建议放入 static 目录, 如 /static/img/mescroll-empty.png )<br> tip: "~ 空空如也 ~", // 提示<br> btnText: "", //button 的内容文字，为空时不显示 button<br>} |
+| Prop name | Description                                                                                                                                                                                                                                                                                                                                                                                                                              | Type   | Values                                                                                                              | Default                                                                                                                                                                                                                                                       |
+| --------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------ | ------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| option    | empty 的配置项: 默认为 GlobalOption.up.empty<br>列表第一页无任何数据时,显示的空布局 (需配置 warpId 才生效)<br>warpId : 父布局的 id (1.3.5 版本支持传入 dom 元素)<br>icon : 空布局的图标路径<br>tip : 提示文本<br>btntext : 按钮文本<br>btnClick : 点击按钮的回调<br>supportTap: 如果您的运行环境支持 tap,则可配置 true,可减少点击延时,快速响应事件;默认 false,通过 onclick 添加点击事件; (v 1.3.0 新增) (注:微信和 PC 无法响应 tap 事件) | object | `{warpId : null`, `icon : null`, `tip : "暂无相关数据~"`, `btntext : ""`, `btnClick : null<br> supportTap : false}` | {<br> use: true, // 是否显示空布局<br> icon: "/static/imgs/public/mescroll-empty.png", // 图标路径 (建议放入 static 目录, 如 /static/img/mescroll-empty.png )<br> tip: "~ 空空如也 ~", // 提示<br> btnText: "", //button 的内容文字，为空时不显示 button<br>} |
 
 ## Events
 
@@ -17,10 +17,37 @@
 ---
 
 <!--
- * @Author: your name
- * @Date: 2021-04-13 16:05:26
- * @LastEditTime: 2021-04-13 16:05:27
- * @LastEditors: your name
- * @Description: In User Settings Edit
- * @FilePath: \UC-font\components\uct\components\uct-button\uct-button.md
+ * @Version: 1.0.0
+ * @Author: 祸灵
+ * @LastEditors: 祸灵
+ * @Date: 2021-04-13 16:08:09
+ * @LastEditTime: 2021-04-15 17:56:07
+ * @Description:
 -->
+
+## Empty 使用方法
+
+```vue
+<uct-empty :option="empty" @emptyclick="back"></uct-empty>
+```
+
+```js
+export default {
+  data() {
+    return {
+      empty: {
+        //列表第一页无任何数据时,显示的空提示布局; 需配置warpId才显示
+        warpId: "xxid", //父布局的id (1.3.5版本支持传入dom元素)
+        icon: "/static/imgs/public/mescroll-empty.png", //图标,默认null,支持网络图
+        tip: "暂无相关数据~", //提示
+        btnText: "返回上一个页面" //button 的内容文字，为空时不显示 button
+      }
+    };
+  },
+  methods: {
+    back() {
+      uni.navigateBack({ delta: 1 });
+    }
+  }
+};
+```

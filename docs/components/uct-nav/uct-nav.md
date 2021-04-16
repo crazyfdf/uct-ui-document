@@ -4,21 +4,20 @@
 
 ## Props
 
-| Prop name    | Description                                                                          | Type            | Values | Default                                 |
-| ------------ | ------------------------------------------------------------------------------------ | --------------- | ------ | --------------------------------------- |
-| height       | 导航栏高度，单位 px，非 rpx                                                          | string\|number  | -      | ""                                      |
-| titleWidth   | 标题的宽度，如果需要自定义右侧内容，且右侧内容很多时，可能需要减少这个宽度，单位 rpx | string\|number  | -      | "500"                                   |
-| titleColor   | 标题的颜色                                                                           | string          | -      | "#606266"                               |
-| titleBold    | 标题字体是否加粗                                                                     | boolean         | -      | false                                   |
-| titleSize    | 标题的字体大小                                                                       | string\|number  | -      | 32                                      |
-| isBack       | 导航栏左侧是否为返回按钮                                                             | boolean\|string | -      | true                                    |
-| background   | 对象形式，因为用户可能定义一个纯色，或者线性渐变的颜色                               | string          | -      | function() {<br> return "#ffffff";<br>} |
-| isFixed      | 导航栏是否固定在顶部                                                                 | boolean         | -      | true                                    |
-| immersive    | 是否沉浸式，允许 fixed 定位后导航栏塌陷，仅 fixed 定位下生效                         | boolean         | -      | false                                   |
-| borderBottom | 是否显示导航栏的下边框                                                               | boolean         | -      | true                                    |
-| zIndex       | 导航栏层级                                                                           | string\|number  | -      | ""                                      |
-| customBack   | 自定义返回逻辑                                                                       | func            | -      | null                                    |
-| custom       | 是否自定义                                                                           | boolean         | -      | false                                   |
+| Prop name    | Description                                                                          | Type           | Values | Default   |
+| ------------ | ------------------------------------------------------------------------------------ | -------------- | ------ | --------- |
+| height       | 导航栏高度，单位 px，非 rpx                                                          | string\|number | -      | ""        |
+| titleWidth   | 标题的宽度，如果需要自定义右侧内容，且右侧内容很多时，可能需要减少这个宽度，单位 rpx | string\|number | -      | "500"     |
+| titleColor   | 标题的颜色                                                                           | string         | -      | "#606266" |
+| titleBold    | 标题字体是否加粗                                                                     | boolean        | -      | false     |
+| titleSize    | 标题的字体大小                                                                       | string\|number | -      | 32        |
+| background   | 对象形式，因为用户可能定义一个纯色，或者线性渐变的颜色                               | string         | -      | "#ffffff" |
+| isFixed      | 导航栏是否固定在顶部                                                                 | boolean        | -      | true      |
+| immersive    | 是否沉浸式，允许 fixed 定位后导航栏塌陷，仅 fixed 定位下生效                         | boolean        | -      | false     |
+| borderBottom | 是否显示导航栏的下边框                                                               | boolean        | -      | true      |
+| zIndex       | 导航栏层级                                                                           | string\|number | -      | ""        |
+| customBack   | 自定义返回逻辑                                                                       | func           | -      | null      |
+| custom       | 是否自定义                                                                           | boolean        | -      | false     |
 
 ## Slots
 
@@ -34,8 +33,31 @@
 <!--
  * @Author: your name
  * @Date: 2021-04-13 16:05:26
- * @LastEditTime: 2021-04-13 16:05:27
- * @LastEditors: your name
+ * @LastEditTime: 2021-04-16 14:35:11
+ * @LastEditors: 祸灵
  * @Description: In User Settings Edit
  * @FilePath: \UC-font\components\uct\components\uct-button\uct-button.md
 -->
+
+## Navbar 导航使用方法
+
+```vue
+<uct-nav>
+  <view slot="left"
+        @click="goBack">返回</view>
+  <view slot="center">Navbar导航栏</view>
+  <view slot="right">更多</view>
+</uct-nav>
+```
+
+```js
+export default {
+  methods: {
+    goBack() {
+      uni.navigateBack({
+        delta: 1
+      });
+    }
+  }
+};
+```

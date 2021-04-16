@@ -19,6 +19,7 @@
         <text v-if="rotate1"
               class="cuIcon cuIcon-loading1"></text>
         <view v-if="!rotate1">
+          <!-- @slot 按钮内容文本 -->
           <slot name="text">{{ text }}</slot>
         </view>
       </view>
@@ -45,6 +46,11 @@ export default {
     disabled: {
       type: [Boolean, String],
       default: false,
+    },
+    /** 防抖及动画时间 */
+    time: {
+      type: Number,
+      default: 1000,
     },
     /** 按钮背景颜色 */
     bgColor: {
@@ -73,13 +79,13 @@ export default {
         this.rotate1 = true;
         setTimeout(() => {
           this.rotate1 = false;
-        }, 1000);
+        }, this.time);
       }
     },
     debounce(e) {
       this.$uct.debounce.canDoFunction({
         key: "submit", //基于此值判断是否可以操作，如两个方法传入了同样的key，则会混淆，建议传入调用此事件的方法名，简单好梳理
-        time: 5000, //如果传入time字段，则为定时器后，自动解除锁定状态，单位（毫秒）
+        time: this.time, //如果传入time字段，则为定时器后，自动解除锁定状态，单位（毫秒）
         success: () => {
           //成功中调用应该操作的方法，被锁定状态不会执行此代码块内的方法
           this.btnClick.call(this, e);

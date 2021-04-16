@@ -1,7 +1,7 @@
 <!--
  * @Author: 祸灵
  * @Date: 2021-02-24 16:18:53
- * @LastEditTime: 2021-04-14 10:42:51
+ * @LastEditTime: 2021-04-16 11:03:09
  * @LastEditors: 祸灵
  * @Description: 通用列表组件
  * @FilePath: \uct-ui\components\uct-scroll\uct-scroll.vue
@@ -17,7 +17,7 @@
     <!-- tabbar -->
     <view class="top-warp">
       <!-- 当设置tab-width,指定每个tab宽度时,则不使用flex布局,改用水平滑动 -->
-      <uct-tabs :value="tabNowIndex"
+      <uct-tabs v-model="tabNowIndex"
                 v-if="tabs.length>1"
                 :tabs="tabs"
                 :height="tabsHeight"
@@ -31,7 +31,7 @@
     </view>
 
     <!-- list内容懒加载 -->
-    <uct-scroll-item v-show="tabIndex === index"
+    <uct-scroll-item v-show="tabNowIndex === index"
                      v-if="lazy"
                      :ref="'uctscroll'+index"
                      v-for="(item,index) in tabs"
@@ -41,7 +41,7 @@
                      :url="item.url"
                      :api="item.api"
                      :more="item.more"
-                     :tabIndex="tabIndex"
+                     :tabIndex="tabNowIndex"
                      :index="index"
                      :downOption="downOption"
                      :upOption="upOption"
@@ -51,7 +51,7 @@
     </uct-scroll-item>
     <!-- list内容不使用懒加载 -->
     <view v-if="!lazy">
-      <uct-scroll-item v-if="tabIndex === index"
+      <uct-scroll-item v-if="tabNowIndex === index"
                        :ref="'uctscroll'+index"
                        v-for="(item,index) in tabs"
                        :key="index"
@@ -60,7 +60,7 @@
                        :url="item.url"
                        :api="item.api"
                        :more="item.more"
-                       :tabIndex="tabIndex"
+                       :tabIndex="tabNowIndex"
                        :index="index"
                        :downOption="downOption"
                        :upOption="upOption"
@@ -109,19 +109,19 @@ export default {
       default: false,
     },
     /** 当前列表下标 */
-    tabIndex: {
+    value: {
       type: Number,
       default: 0,
     },
-    /**  当前列表内容距离顶部高度  */
+    /**  当前列表内容距离顶部高度，单位rpx  */
     top: {
       type: Number | String,
-      default: 0,
+      default: 40,
     },
     /** 当前列表内容距离底部高度，单位rpx */
     bottom: {
       type: Number,
-      default: 120,
+      default: 40,
     },
     /** 列表栏高度，单位rpx */
     tabsHeight: {
@@ -179,8 +179,19 @@ export default {
     return {};
   },
   computed: {
-    tabNowIndex(v) {
-      return this.tabIndex;
+    tabNowIndex: {
+      set(v) {
+        /**
+         * 切换列表默认通过v-model语法糖将下标更改，父组件使用v-model或:value
+         * @event input
+         * @property {number} i 切换的列表下标
+         * @params {number} i
+         */
+        this.$emit("input", v);
+      },
+      get() {
+        return this.value;
+      },
     },
     /**
      * @description: scroll的离页面顶部的距离，this.baseTop为导航栏的高度，单位rpx
@@ -188,13 +199,13 @@ export default {
      * @return {*}
      */
     top1(v) {
-      if (this.tabs.length > 1 && this.tabs[this.tabIndex].nav !== false) {
+      if (this.tabs.length > 1 && this.tabs[this.tabNowIndex].nav !== false) {
         return (
           (this.$uct.config.navHeight + this.$uct.config.statusBarHeight) * 2 +
           this.tabsHeight +
           this.top
         );
-      } else if (this.tabs[this.tabIndex].nav === false) {
+      } else if (this.tabs[this.tabNowIndex].nav === false) {
         return this.$uct.config.statusBarHeight * 2 + this.top;
       } else {
         return (
@@ -225,7 +236,7 @@ export default {
       }
     },
     reload() {
-      this.$refs[`uctscroll${this.tabIndex}`][0].downCallback();
+      this.$refs[`uctscroll${this.tabNowIndex}`][0].downCallback();
     },
     success(list) {
       /**

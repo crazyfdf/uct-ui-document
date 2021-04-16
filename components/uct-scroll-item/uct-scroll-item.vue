@@ -7,7 +7,7 @@
                   @up="upCallback"
                   :down="downOption"
                   :up="upOption"
-                  :top="top"
+                  :top="top1"
                   :bottom="bottom">
       <view class="scroll">
         <!-- @slot 列表内容 -->
@@ -33,10 +33,15 @@ export default {
     MescrollUni,
   },
   props: {
-    /** 列表当前下标 */
+    /** 列表当前下标,为false时表示单独使用子列表组件 */
     tabIndex: {
-      type: Number,
-      default: 0,
+      type: Number | Boolean,
+      default: false,
+    },
+    /** 是否自定义导航栏 */
+    isNav: {
+      type: Boolean,
+      default: true,
     },
     /** 列表下标 */
     index: {
@@ -62,17 +67,13 @@ export default {
     },
     /** 列表离顶部距离 */
     top: {
-      type: Number,
-      default() {
-        return 30;
-      },
+      type: Number | String,
+      default: 40,
     },
     /** 列表离底部距离 */
     bottom: {
       type: Number,
-      default() {
-        return 120;
-      },
+      default: 40,
     },
     /** 列表下拉配置 */
     downOption: {
@@ -111,6 +112,23 @@ export default {
   computed: {
     dataApi(v) {
       return this.api.split(".");
+    },
+    /**
+     * @description: scroll的离页面顶部的距离，this.baseTop为导航栏的高度，单位rpx
+     * @param {*}
+     * @return {*}
+     */
+    top1(v) {
+      if (this.tabIndex !== false) {
+        return this.top;
+      } else if (this.isNav === false) {
+        return this.$uct.config.statusBarHeight * 2 + this.top;
+      } else {
+        return (
+          (this.$uct.config.navHeight + this.$uct.config.statusBarHeight) * 2 +
+          this.top
+        );
+      }
     },
   },
   watch: {

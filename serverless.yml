@@ -6,7 +6,7 @@ app: uct-ui # (可选) 该 nuxt.js 项目名称
 stage: dev # (可选) 用于区分环境信息，默认值是 dev
 inputs:
   src:
-    src: ./docs/.vitepress/dist # Upload static files
+    src: ./docs/.vuepress/dist # Upload static files
     index: index.html
     error: 404.html
   region: ap-guangzhou

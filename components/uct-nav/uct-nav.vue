@@ -11,24 +11,20 @@
         <slot v-if="custom"></slot>
         <view v-else
               class="uct-navbar-inner">
-          <view class="uct-back-left">
+          <view class="uct-slot-left pl40">
             <!-- @slot 导航栏左插槽，默认返回按钮 -->
-            <slot name="left"
-                  v-if="isBack">
-              <image style="width:21rpx"
+            <slot name="left">
+              <image style="width:20rpx;height:36rpx"
                      @tap="goBack"
-                     mode="widthFix"
-                     src="/static/imgs/home/back.png" />
+                     src="../../static/imgs/public/back.png" />
             </slot>
-            <view v-else
-                  style="width:21rpx"></view>
           </view>
           <view class="uct-slot-content f16 f700"
                 :style="{maxWidth:titleWidth+'rpx'}">
             <!-- @slot 导航栏居中插槽，内容最大宽度为titleWidth 单位rpx -->
             <slot name="center"></slot>
           </view>
-          <view class="uct-slot-right">
+          <view class="uct-slot-right pr40">
             <!-- @slot 导航栏右插槽 -->
             <slot name="right"></slot>
           </view>
@@ -62,40 +58,6 @@ export default {
       type: [String, Number],
       default: "",
     },
-    /** 返回箭头的颜色 */
-    // backIconColor: {
-    //   type: String,
-    //   default: "#606266",
-    // },
-    /** 左边返回的图标 */
-    // backIconName: {
-    //   type: String,
-    //   default: "nav-back",
-    // },
-    // /** 左边返回图标的大小，rpx */
-    // backIconSize: {
-    //   type: [String, Number],
-    //   default: "44",
-    // },
-    /** 返回的文字提示 */
-    // backText: {
-    //   type: String,
-    //   default: "",
-    // },
-    // /** 返回的文字的样式 */
-    // backTextStyle: {
-    //   type: Object,
-    //   default() {
-    //     return {
-    //       color: "#606266",
-    //     };
-    //   },
-    // },
-    /** 导航栏标题 */
-    // title: {
-    //   type: String,
-    //   default: "",
-    // },
     /** 标题的宽度，如果需要自定义右侧内容，且右侧内容很多时，可能需要减少这个宽度，单位rpx */
     titleWidth: {
       type: [String, Number],
@@ -115,11 +77,6 @@ export default {
     titleSize: {
       type: [String, Number],
       default: 32,
-    },
-    /** 导航栏左侧是否为返回按钮 */
-    isBack: {
-      type: [Boolean, String],
-      default: true,
     },
     /** 对象形式，因为用户可能定义一个纯色，或者线性渐变的颜色 */
     background: {
@@ -303,8 +260,13 @@ export default {
   font-size: 32rpx;
   flex: 1;
 }
-
-.uct-navbar-right {
+.uct-slot-left {
+  flex: 1;
+  @include vue-flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+.uct-slot-right {
   flex: 1;
   @include vue-flex;
   align-items: center;
@@ -312,7 +274,6 @@ export default {
 }
 
 .uct-slot-content {
-  flex: 1;
   @include vue-flex;
   align-items: center;
   justify-content: center;

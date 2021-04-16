@@ -1,7 +1,6 @@
 <template>
   <view>
-    <!-- @slot 自定义的其他表单组件，提交参数通过more传递  
-      -->
+    <!-- @slot 自定义的其他表单组件，提交参数通过more传递 -->
     <slot name='more'></slot>
     <view v-for="(item,index) in formList"
           v-if="formList.length"
