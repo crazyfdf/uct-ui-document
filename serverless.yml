@@ -13,12 +13,12 @@ inputs:
   bucketName: uct
   cors:
     - allowedOrigins:
-        - '*'
+        - "*"
       allowedMethods:
         - GET
         - POST
         - PUT
         - DELETE
         - HEAD
-      allowedHeaders: '*'
+      allowedHeaders: "*"
       maxAgeSeconds: 10
