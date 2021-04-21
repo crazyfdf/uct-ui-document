@@ -1,16 +1,15 @@
 ---
 home: true
-heroImage: /hero.png
-heroText: Hero 标题
-tagline: Hero 副标题
+heroText: 多平台快速开发的UI框架
+tagline: UCT UI，是uni-app生态最优秀的UI框架，全面的组件和便捷的工具会让您信手拈来，如鱼得水
 actionText: 快速上手 →
-actionLink: /zh/guide/
+actionLink: /components/
 features:
-- title: 简洁至上
-  details: 以 Markdown 为中心的项目结构，以最少的配置帮助你专注于写作。
-- title: Vue驱动
-  details: 享受 Vue + webpack 的开发体验，在 Markdown 中使用 Vue 组件，同时可以使用 Vue 来开发自定义主题。
-- title: 高性能
-  details: VuePress 为每个页面预渲染生成静态的 HTML，同时在页面被加载的时候，将作为 SPA 运行。
-footer: MIT Licensed | Copyright © 2018-present Evan You
+- title: 组件
+  details: 众多组件覆盖开发过程的各个需求，组件功能丰富，多端兼容。让您快速集成，开箱即用。
+- title: 工具库
+  details: 众多的贴心小工具，是您开发过程中召之即来的利器，让您飞镖在手，百步穿杨。
+- title: 布局
+  details: 收集众多的常用页面和布局，减少开发者的重复工作，让您专注逻辑，事半功倍。
+footer: Copyright © 2021 UCT UI
 ---

@@ -6,7 +6,16 @@ const { parse } = require("vue-docgen-api");
 const { renameComponentMd } = require("./fileinit.js");
 var vuePressConfig = async () => {
   renameComponentMd(cwd + "/components");
-  const docFiles = glob.sync("components/**/*.md", { cwd }).map(f => "/" + f); //.substr(10)
+  // 首页
+  const index = ["/index.md"];
+  // 指南
+  const docGuide = glob.sync("guide/uct-*/*.md", { cwd }).map(f => "/" + f); //.substr(10)
+  // 组件
+  const docComponents = glob.sync("components/uct-*/*.md", { cwd }).map(f => "/" + f); //.substr(10)
+  // 工具
+  const docTools = glob.sync("tools/uct-*/*.md", { cwd }).map(f => "/" + f); //.substr(10)
+  // 模板
+
   const components = await Promise.all(
     glob
       .sync("../../components/**/[a-z].{vue,jsx,ts,tsx}", { cwd, absolute: true })
@@ -17,8 +26,7 @@ var vuePressConfig = async () => {
         };
       })
   );
-  const index = ["/index.md"];
-  console.log(docFiles);
+  console.log(docComponents);
   //引入fs文件目录模块
   return {
     dest: path.join(__dirname, "/dist"),
@@ -38,15 +46,34 @@ var vuePressConfig = async () => {
       ],
       sidebar: {
         index,
+        "/guide/": [
+          {
+            title: "指南", // 必要的
+            path: "/guide", // 可选的, 标题的跳转链接，应为绝对路径且必须存在
+            // collapsable: false, // 可选的, 默认值是 true,
+            // sidebarDepth: 1, // 可选的, 默认值是 1
+            children: docGuide,
+          },
+        ],
         "/components/": [
           {
             title: "组件", // 必要的
-            // path: "/components/", // 可选的, 标题的跳转链接，应为绝对路径且必须存在
+            path: "/components", // 可选的, 标题的跳转链接，应为绝对路径且必须存在
             // collapsable: false, // 可选的, 默认值是 true,
             // sidebarDepth: 1, // 可选的, 默认值是 1
-            children: docFiles,
+            children: docComponents,
           },
         ],
+        "/tools/": [
+          {
+            title: "工具", // 必要的
+            path: "/tools", // 可选的, 标题的跳转链接，应为绝对路径且必须存在
+            // collapsable: false, // 可选的, 默认值是 true,
+            // sidebarDepth: 1, // 可选的, 默认值是 1
+            children: docTools,
+          },
+        ],
+        // "/templates/": [""],
         //  "/components/": docFiles
       },
       markdown: {

@@ -1,2 +1,0 @@
-# 组件
-<iframe id="iframe" height="812" width="375"  frameborder="0" allowfullscreen="true" src="https://uct-1257264070.cos-website.ap-guangzhou.myqcloud.com/" style=" border: #ff7c12 1px solid;" scrolling="no"></iframe>

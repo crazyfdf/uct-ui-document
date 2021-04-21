@@ -1,11 +1,5 @@
-<!--
- * @Version: 1.0.0
- * @Author: 祸灵
- * @LastEditors: 祸灵
- * @Date: 2021-04-14 17:20:51
- * @LastEditTime: 2021-04-19 18:13:19
- * @Description: 
--->
+# CSS 样式
+
 **注意**:UCT为了更好编写css，使用了scss预处理器，使用uct之前，请确认您的Hbuilder X已经安装了scss预处理器，一般情况下，相信您已经安装了。如果没有安装， 请在 Hbuilder X->工具->插件安装 中找到找到"scss/sass编译"安装即可，安装完毕如果不生效，请重启Hbuilder X。
 
 

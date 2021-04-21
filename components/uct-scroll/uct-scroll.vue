@@ -1,19 +1,13 @@
 <!--
  * @Author: 祸灵
  * @Date: 2021-02-24 16:18:53
- * @LastEditTime: 2021-04-16 11:03:09
+ * @LastEditTime: 2021-04-16 15:47:03
  * @LastEditors: 祸灵
  * @Description: 通用列表组件
  * @FilePath: \uct-ui\components\uct-scroll\uct-scroll.vue
 -->
 <template>
   <view>
-    <!-- 搜索栏 -->
-    <uct-search v-if="search"
-                class="search"
-                :style="{top:searchTop}"
-                placeholder="请输入搜索关键字"
-                @search="searchChange"></uct-search>
     <!-- tabbar -->
     <view class="top-warp">
       <!-- 当设置tab-width,指定每个tab宽度时,则不使用flex布局,改用水平滑动 -->
@@ -100,14 +94,6 @@ export default {
       type: Boolean | String,
       default: true,
     },
-    /**
-     * 是否显示搜索框
-     * @values true,false
-     */
-    search: {
-      type: Boolean,
-      default: false,
-    },
     /** 当前列表下标 */
     value: {
       type: Number,
@@ -147,11 +133,6 @@ export default {
     blColor: {
       type: String,
       default: "#479ff7",
-    },
-    /** 搜索栏离顶部距离 */
-    searchTop: {
-      type: Number,
-      default: 80,
     },
     /** 列表下拉配置 */
     downOption: {
