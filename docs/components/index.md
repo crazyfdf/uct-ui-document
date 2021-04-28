@@ -1,6 +1,5 @@
 <style>
   .demo-model{
-  font-size: 16px;
   background-color: #fff;
   width: 310px;
   height: 627.87024px;
