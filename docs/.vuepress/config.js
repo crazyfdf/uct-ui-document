@@ -42,7 +42,7 @@ var vuePressConfig = async () => {
         { text: "组件", link: "/components/index" },
         { text: "模板", link: "/templates/index" },
         { text: "github", link: "https://github.com/crazyfdf/uct-ui" },
-        { text: "gitee", link: "https://gitee.com/huolingmengling/uct-ui/tree/master/" },
+        { text: "gitee", link: "https://gitee.com/huolingmengling/uct-ui" },
       ],
       sidebar: {
         index,
