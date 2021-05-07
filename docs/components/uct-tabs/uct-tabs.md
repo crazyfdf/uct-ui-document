@@ -7,6 +7,7 @@
 | Prop name | Description                                                                                                     | Type           | Values                                                       | Default       |
 | --------- | --------------------------------------------------------------------------------------------------------------- | -------------- | ------------------------------------------------------------ | ------------- |
 | tabs      | 列表配置信息                                                                                                    | array          | `['全部'`, `'待付款'] 或 [{name:'全部'}`, `{name:'待付款'}]` | []            |
+| px        | 标题左右间距                                                                                                    | number         | -                                                            | 40            |
 | nameKey   | 取 name 的字段                                                                                                  | string         | -                                                            | "name"        |
 | value     | 当前显示的下标 (使用 v-model 语法糖: 1.props 需为 value; 2.需回调 input 事件)                                   | string\|number | -                                                            | 0             |
 | fixed     | 是否悬浮,默认 false                                                                                             | boolean        | -                                                            | false         |
@@ -31,17 +32,19 @@
  * @Author: 祸灵
  * @LastEditors: 祸灵
  * @Date: 2021-04-13 16:08:09
- * @LastEditTime: 2021-04-16 11:38:43
+ * @LastEditTime: 2021-04-29 09:57:04
  * @Description:
 -->
 
 ## Scroll 使用方法
 
 ```vue
-uct-tabs class="px40"
-              :tabs="tabs"
-              :tabRight="tabRight"
-              v-model="tabIndex"></uct-tabs>
+<uct-tabs
+  class="px40"
+  :tabs="tabs"
+  :tabRight="tabRight"
+  v-model="tabIndex"
+></uct-tabs>
 ```
 
 ```js

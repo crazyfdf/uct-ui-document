@@ -1,7 +1,7 @@
 <!--
  * @Author: 祸灵
  * @Date: 2021-02-24 16:18:53
- * @LastEditTime: 2021-04-16 15:47:03
+ * @LastEditTime: 2021-04-29 16:02:47
  * @LastEditors: 祸灵
  * @Description: 通用列表组件
  * @FilePath: \uct-ui\components\uct-scroll\uct-scroll.vue
@@ -14,6 +14,7 @@
       <uct-tabs v-model="tabNowIndex"
                 v-if="tabs.length>1"
                 :tabs="tabs"
+                :px="px"
                 :height="tabsHeight"
                 :bcColor="bcColor"
                 :blColor="blColor"
@@ -25,24 +26,31 @@
     </view>
 
     <!-- list内容懒加载 -->
-    <uct-scroll-item v-show="tabNowIndex === index"
-                     v-if="lazy"
-                     :ref="'uctscroll'+index"
-                     v-for="(item,index) in tabs"
-                     :key="index"
-                     @downCallback="downCallback"
-                     @success="success"
-                     :url="item.url"
-                     :api="item.api"
-                     :more="item.more"
-                     :tabIndex="tabNowIndex"
-                     :index="index"
-                     :downOption="downOption"
-                     :upOption="upOption"
-                     :top="top1"
-                     :bottom="bottom">
-      <slot></slot>
-    </uct-scroll-item>
+    <view v-if="lazy">
+      <uct-scroll-item v-show="tabNowIndex === index"
+                       :ref="'uctscroll'+index"
+                       v-for="(item,index) in tabs"
+                       :key="index"
+                       @downCallback="downCallback"
+                       @success="success"
+                       :url="item.url"
+                       :api="item.api"
+                       :more="item.more"
+                       :fixed="item.fixed||item.fixed===undefined?true:false"
+                       :tabIndex="tabNowIndex"
+                       :index="index"
+                       :downOption="downOption"
+                       :upOption="upOption"
+                       :top="top1"
+                       :bottom="bottom">
+        <!-- #ifdef MP -->
+        <slot name="{{index}}"></slot>
+        <!-- #endif -->
+        <!-- #ifndef MP -->
+        <slot :name="index"></slot>
+        <!-- #endif -->
+      </uct-scroll-item>
+    </view>
     <!-- list内容不使用懒加载 -->
     <view v-if="!lazy">
       <uct-scroll-item v-if="tabNowIndex === index"
@@ -54,6 +62,7 @@
                        :url="item.url"
                        :api="item.api"
                        :more="item.more"
+                       :fixed="item.fixed||item.fixed===undefined?true:false"
                        :tabIndex="tabNowIndex"
                        :index="index"
                        :downOption="downOption"
@@ -87,6 +96,13 @@ export default {
       },
     },
     /**
+     * 标题左右间距
+     */
+    px: {
+      type: Number,
+      default: 20,
+    },
+    /**
      * 是否开启懒加载
      * @values true,false
      */
@@ -102,12 +118,12 @@ export default {
     /**  当前列表内容距离顶部高度，单位rpx  */
     top: {
       type: Number | String,
-      default: 40,
+      default: 20,
     },
     /** 当前列表内容距离底部高度，单位rpx */
     bottom: {
       type: Number,
-      default: 40,
+      default: 20,
     },
     /** 列表栏高度，单位rpx */
     tabsHeight: {
@@ -180,19 +196,14 @@ export default {
      * @return {*}
      */
     top1(v) {
-      if (this.tabs.length > 1 && this.tabs[this.tabNowIndex].nav !== false) {
+      if (this.tabs.length > 1) {
         return (
           (this.$uct.config.navHeight + this.$uct.config.statusBarHeight) * 2 +
           this.tabsHeight +
           this.top
         );
-      } else if (this.tabs[this.tabNowIndex].nav === false) {
-        return this.$uct.config.statusBarHeight * 2 + this.top;
       } else {
-        return (
-          (this.$uct.config.navHeight + this.$uct.config.statusBarHeight) * 2 +
-          this.top
-        );
+        return this.top;
       }
     },
   },
@@ -247,12 +258,6 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.search {
-  position: fixed;
-  height: 60rpx;
-  top: 0;
-  z-index: 2;
-}
 .top-warp {
   position: relative;
   display: flex;

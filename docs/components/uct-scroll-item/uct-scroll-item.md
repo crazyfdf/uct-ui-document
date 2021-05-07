@@ -4,18 +4,18 @@
 
 ## Props
 
-| Prop name  | Description                                     | Type              | Values | Default                                                                                    |
-| ---------- | ----------------------------------------------- | ----------------- | ------ | ------------------------------------------------------------------------------------------ |
-| tabIndex   | 列表当前下标,为 false 时表示单独使用子列表组件  | Number \| Boolean | -      | false                                                                                      |
-| isNav      | 是否自定义导航栏                                | boolean           | -      | true                                                                                       |
-| index      | 列表下标                                        | number            | -      | 0                                                                                          |
-| api        | 接口数据内容所在位置                            | string            | -      | "result.content"                                                                           |
-| more       | 接口请求参数，为 false 时表示不请求接口，默认{} | Object \| Boolean | -      | function() {<br> return {};<br>}                                                           |
-| url        | 接口 url                                        | string            | -      | ""                                                                                         |
-| top        | 列表离顶部距离                                  | Number \| String  | -      | 40                                                                                         |
-| bottom     | 列表离底部距离                                  | number            | -      | 40                                                                                         |
-| downOption | 列表下拉配置                                    | object            | -      | {<br> auto: false, // 不自动加载<br>}                                                      |
-| upOption   | 列表上拉配置                                    | object            | -      | {<br> auto: false, // 不自动加载<br> empty: {<br> tip: "~ 空空如也 ~", // 提示<br> },<br>} |
+| Prop name  | Description                                     | Type              | Values                              | Default                                                                                    |
+| ---------- | ----------------------------------------------- | ----------------- | ----------------------------------- | ------------------------------------------------------------------------------------------ |
+| tabIndex   | 列表当前下标,为 false 时表示单独使用子列表组件  | Number \| Boolean | -                                   | false                                                                                      |
+| fixed      | 是否通过 fixed 固定 scroll 的高度, 默认 false   | boolean           | `true`, `false //false时为relative` | false                                                                                      |
+| index      | 列表下标                                        | number            | -                                   | 0                                                                                          |
+| api        | 接口数据内容所在位置                            | string            | -                                   | "result.content"                                                                           |
+| more       | 接口请求参数，为 false 时表示不请求接口，默认{} | Object \| Boolean | -                                   | function() {<br> return {};<br>}                                                           |
+| url        | 接口 url                                        | string            | -                                   | ""                                                                                         |
+| top        | 列表离顶部距离                                  | Number \| String  | -                                   | 20                                                                                         |
+| bottom     | 列表离底部距离                                  | number            | -                                   | 20                                                                                         |
+| downOption | 列表下拉配置                                    | object            | -                                   | {<br> auto: false, // 不自动加载<br>}                                                      |
+| upOption   | 列表上拉配置                                    | object            | -                                   | {<br> auto: false, // 不自动加载<br> empty: {<br> tip: "~ 空空如也 ~", // 提示<br> },<br>} |
 
 ## Events
 

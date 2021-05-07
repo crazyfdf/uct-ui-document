@@ -7,10 +7,11 @@
 | Prop name  | Description                                       | Type              | Values                                                                                                           | Default                                                                                    |
 | ---------- | ------------------------------------------------- | ----------------- | ---------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------ |
 | tabs       | 每个子列表的配置项，当 tabs.length>1 时显示列表栏 | array             | `[{name: "列表名1"`, `more: {}`, `url: ""`, `list: []}`, `{name: "列表名2"`, `more: {}`, `url: ""`, `list: []}]` | []                                                                                         |
+| px         | 标题左右间距                                      | number            | -                                                                                                                | 20                                                                                         |
 | lazy       | 是否开启懒加载                                    | Boolean \| String | `true`, `false`                                                                                                  | true                                                                                       |
 | value      | 当前列表下标                                      | number            | -                                                                                                                | 0                                                                                          |
-| top        | 当前列表内容距离顶部高度，单位 rpx                | Number \| String  | -                                                                                                                | 40                                                                                         |
-| bottom     | 当前列表内容距离底部高度，单位 rpx                | number            | -                                                                                                                | 40                                                                                         |
+| top        | 当前列表内容距离顶部高度，单位 rpx                | Number \| String  | -                                                                                                                | 20                                                                                         |
+| bottom     | 当前列表内容距离底部高度，单位 rpx                | number            | -                                                                                                                | 20                                                                                         |
 | tabsHeight | 列表栏高度，单位 rpx                              | number            | -                                                                                                                | 80                                                                                         |
 | tabRight   | 列表栏标签间的间距，单位 rpx，为 0 时为 flex 布局 | number            | -                                                                                                                | 0                                                                                          |
 | bcColor    | 列表栏背景颜色                                    | string            | -                                                                                                                | "#fff"                                                                                     |
@@ -31,10 +32,11 @@
 
 ## Slots
 
-| Name    | Description            | Bindings |
-| ------- | ---------------------- | -------- |
-| moreTab | 支持列表右侧自定义内容 |          |
-| default | 支持列表内容插槽       |          |
+| Name      | Description            | Bindings |
+| --------- | ---------------------- | -------- |
+| moreTab   | 支持列表右侧自定义内容 |          |
+| {{index}} |                        |          |
+| default   | 支持列表内容插槽       |          |
 
 ---
 
@@ -43,7 +45,7 @@
  * @Author: 祸灵
  * @LastEditors: 祸灵
  * @Date: 2021-04-13 16:08:09
- * @LastEditTime: 2021-04-16 11:38:43
+ * @LastEditTime: 2021-05-06 15:08:35
  * @Description:
 -->
 
@@ -52,17 +54,18 @@
 ```vue
 <uct-scroll
   :tabs="tabs"
-  class="px40"
   @success="init"
   v-model="tabIndex"
   @change="changeTabIndex"
   :tabRight="tabRight"
 >
-      <view v-for="item in 200"
-            class="px40">
-        <view>{{item}}</view>
-      </view>
-    </uct-scroll>
+    <view v-for="(item,index) in tabs"
+          class="px40"
+          :key="index"
+          :slot="index">
+      <view>{{index}}</view>
+    </view>
+</uct-scroll>
 ```
 
 ```js

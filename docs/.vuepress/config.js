@@ -50,8 +50,8 @@ var vuePressConfig = async () => {
           {
             title: "指南", // 必要的
             path: "/guide", // 可选的, 标题的跳转链接，应为绝对路径且必须存在
-            // collapsable: false, // 可选的, 默认值是 true,
-            // sidebarDepth: 1, // 可选的, 默认值是 1
+            collapsable: false, //false默认展开
+            // sidebarDepth: 1, // 可选的, 默认值是 1,展开深度
             children: docGuide,
           },
         ],
@@ -59,16 +59,61 @@ var vuePressConfig = async () => {
           {
             title: "组件", // 必要的
             path: "/components", // 可选的, 标题的跳转链接，应为绝对路径且必须存在
+            collapsable: false,
             // collapsable: false, // 可选的, 默认值是 true,
             // sidebarDepth: 1, // 可选的, 默认值是 1
-            children: docComponents,
+            children: [
+              {
+                title: "列表", // 必要的
+                collapsable: false,
+                children: [
+                  "uct-scroll/uct-scroll.md",
+                  "uct-scroll-item/uct-scroll-item.md",
+                  "uct-tabs/uct-tabs.md",
+                  "uct-empty/uct-empty.md",
+                ],
+              },
+              {
+                title: "表单", // 必要的
+                collapsable: false,
+                children: [
+                  "uct-form/uct-form.md",
+                  "uct-form-item/uct-form-item.md",
+                  "uct-alert/uct-alert.md",
+                  "uct-button/uct-button.md",
+                  "uct-form-check/uct-form-check.md",
+                  "uct-form-file/uct-form-file.md",
+                  "uct-form-input/uct-form-input.md",
+                  "uct-form-rate/uct-form-rate.md",
+                  "uct-form-select/uct-form-select.md",
+                  "uct-form-slider/uct-form-slider.md",
+                  "uct-form-switch/uct-form-switch.md",
+                  "uct-title/uct-title.md",
+                ],
+              },
+              {
+                title: "详情", // 必要的
+                collapsable: false,
+                children: ["uct-details/uct-details.md", "uct-skeleton/uct-skeleton.md"],
+              },
+              {
+                title: "其他组件", // 必要的
+                collapsable: false,
+                children: [
+                  "uct-nav/uct-nav.md",
+                  "uct-card/uct-card.md",
+                  "uct-divider/uct-divider.md",
+                  "uct-save-img/uct-save-img.md",
+                ],
+              },
+            ],
           },
         ],
         "/tools/": [
           {
             title: "工具", // 必要的
             path: "/tools", // 可选的, 标题的跳转链接，应为绝对路径且必须存在
-            // collapsable: false, // 可选的, 默认值是 true,
+            collapsable: false,
             // sidebarDepth: 1, // 可选的, 默认值是 1
             children: docTools,
           },

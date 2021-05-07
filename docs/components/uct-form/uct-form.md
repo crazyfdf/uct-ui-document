@@ -4,19 +4,21 @@
 
 ## Props
 
-| Prop name | Description                            | Type   | Values        | Default |
-| --------- | -------------------------------------- | ------ | ------------- | ------- |
-| more      | form 提交其他参数                      | object | `{key:value}` | {}      |
-| formData  | 直接拿到 form 数据和 form 表单名二选一 | object | -             | {}      |
-| name      | 通过 form 表单名拿到 from 数据         | string | -             | ""      |
-| form_id   | form id 修改表单时拿到初始值用         | string | -             | ""      |
-| url       | 提交 url                               | string | -             | ""      |
+| Prop name    | Description                            | Type   | Values                                                                                                                                                                                                                                                                           | Default |
+| ------------ | -------------------------------------- | ------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------- |
+| more         | form 提交其他参数                      | object | `{key:value}`                                                                                                                                                                                                                                                                    | {}      |
+| formData     | form 数据                              | object | `{"list": []`, `"config": {"layout": "horizontal"`, `"labelCol": {"xs": 4`, `"sm": 4`, `"md": 4`, `"lg": 4`, `"xl": 4`, `"xxl": 4}`, `"wrapperCol": {"xs": 18`, `"sm": 18`, `"md": 18`, `"lg": 18`, `"xl": 18`, `"xxl": 18}`, `"hideRequiredMark": false`, `"customStyle": ""}}` | {}      |
+| url          | 提交 url                               | string | -                                                                                                                                                                                                                                                                                | ""      |
+| titleStyle   | title 的自定义样式                     | object | -                                                                                                                                                                                                                                                                                | {}      |
+| \_formList   | 通过 api 拿到的表单数据(递归组件需要)  | array  | -                                                                                                                                                                                                                                                                                | []      |
+| \_formConfig | 内部 form 递归组件的配置(递归组件需要) | object | -                                                                                                                                                                                                                                                                                | {}      |
 
 ## Events
 
-| Event name | Properties                       | Description  |
-| ---------- | -------------------------------- | ------------ |
-| submit     | **data** `object` - 表单提交数据 | 表单提交事件 |
+| Event name | Properties                       | Description              |
+| ---------- | -------------------------------- | ------------------------ |
+| dataItem   | **data** `Object` - 内部表单数据 | 递归表单内部数据改变事件 |
+| submit     | **data** `object` - 表单提交数据 | 表单提交事件             |
 
 ## Slots
 
