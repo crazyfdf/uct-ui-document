@@ -4,11 +4,11 @@
 ```
 /**
 * @description: 格式化时间
+* @param {date|number} date Date格式数据
 * @param {string} fmt 年月日，时分秒,"YYYY-MM-DD HH:MM"
-* @param {date} date Date格式数据
 * @return {string} 返回"YYYY-MM-DD HH:MM"格式字符串
 */
-this.$uct.dateFormat(fmt, date)
+this.$uct.timeFormat(date = null, fmt = "YYYY-MM-DD")
 ```
 ## TimeFormat时间格式化案例
 ```vue
@@ -18,7 +18,7 @@ this.$uct.dateFormat(fmt, date)
       <view slot="center">TimeFormat 时间格式化</view>
     </uct-nav>
     <view class="mt40" v-for="(item, index) in dateFormat" :key="index">
-      {{ $uct.timeFormat(item, date) }}
+      {{ $uct.timeFormat(date,item) }}
     </view>
   </view>
 </template>

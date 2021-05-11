@@ -3,29 +3,25 @@
 ## Throttle | Debounce 节流防抖使用方法
 ```
 /**
-* 节流
-* throttle(1000,true,fnc)()
-* @param {Number} time 节流时间
-* @param {Boolean} isImmediate 是否立即执行
-* @param {Function} func 回调函数
-* @returns 
-*/
-this.$uct.throttle(time = 500, isImmediate = false, func)
+ * 节流
+ * throttle(fnc,1000,true)
+ * @param {Function} func 回调函数
+ * @param {Number} time 节流时间默认500毫秒
+ * @param {Boolean} isImmediate 是否立即执行
+ * @returns
+ */
+this.$uct.throttle(func, time = 500, isImmediate = true)
 ```
 ```
 /**
-* 防抖
-* debounce.canDoFunction({
-  key: "auth",
-  time: 10000,
-  success: () => {},
-  })
-*/
-this.$uct.debounce.canDoFunction({
-  key: "",
-  time: 1000,
-  success: () => {},
-})
+ * 防抖
+ * debounce(fnc,1000,true)
+ * @param {Function} func 回调函数
+ * @param {Number} time 防抖时间默认500毫秒
+ * @param {Boolean} isImmediate 是否立即执行
+ * @returns
+ */
+this.$uct.debounce(func, time = 500, isImmediate = true)
 ```
 ## Throttle | Debounce 节流防抖案例
 ```vue
@@ -53,19 +49,23 @@ export default {
     add(type) {
       switch (type) {
         case "debounce":
-          this.$uct.debounce.canDoFunction({
-            key: "debounce",
-            time: 2000,
-            success: () => {
+          this.$uct.debounce(
+            () => {
               this.result += "0";
             },
-          });
+            5000,
+            true
+          );
           break;
 
         case "throttle":
-          this.$uct.throttle(2000, true, () => {
-            this.result += "0";
-          })();
+          this.$uct.throttle(
+            () => {
+              this.result += "0";
+            },
+            5000,
+            true
+          );
           break;
       }
     },

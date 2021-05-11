@@ -22,7 +22,7 @@ this.$uct.vuex("version", "0.0.2");
 <template>
   <view class="getLoc">
     <uct-nav>
-      <view slot="center">Vuex 操作vuex</view>
+      <view slot="center">Vuex 操作</view>
     </uct-nav>
     <view>当前版本：{{$store.state.version}}</view>
     <uct-button class="mt40"

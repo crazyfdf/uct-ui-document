@@ -1,4 +1,4 @@
-# Details 详情页面
+# Details 详情
 
 详情页面布局模板
 

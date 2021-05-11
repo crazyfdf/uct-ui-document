@@ -26,7 +26,7 @@ var vuePressConfig = async () => {
         };
       })
   );
-  console.log(docComponents);
+  console.log(docTools);
   //引入fs文件目录模块
   return {
     dest: path.join(__dirname, "/dist"),
@@ -115,7 +115,35 @@ var vuePressConfig = async () => {
             path: "/tools", // 可选的, 标题的跳转链接，应为绝对路径且必须存在
             collapsable: false,
             // sidebarDepth: 1, // 可选的, 默认值是 1
-            children: docTools,
+            children: [
+              {
+                title: "CSS样式库", // 必要的
+                collapsable: false,
+                children: ["uct-css/uct-css.md"],
+              },
+              {
+                title: "Filter过滤", // 必要的
+                collapsable: false,
+                children: ["uct-js/numberFormat.md", "uct-js/timeFormat.md"],
+              },
+              {
+                title: "JS工具库", // 必要的
+                collapsable: false,
+                children: [
+                  "uct-js/debounce.md",
+                  "uct-js/deepClone.md",
+                  "uct-js/route.md",
+                  "uct-js/rule.md",
+                  "uct-js/route.md",
+                  "uct-js/vuex.md",
+                ],
+              },
+              {
+                title: "UniApi", // 必要的
+                collapsable: false,
+                children: ["uct-js/callPhone.md", "uct-js/getLoc.md"],
+              },
+            ],
           },
         ],
         // "/templates/": [""],
