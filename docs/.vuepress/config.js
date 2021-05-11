@@ -38,8 +38,8 @@ var vuePressConfig = async () => {
       nav: [
         // 导航栏配置
         { text: "指南", link: "/guide/index" },
-        { text: "工具", link: "/tools/index" },
         { text: "组件", link: "/components/index" },
+        { text: "工具", link: "/tools/index" },
         { text: "模板", link: "/templates/index" },
         { text: "github", link: "https://github.com/crazyfdf/uct-ui" },
         { text: "gitee", link: "https://gitee.com/huolingmengling/uct-ui" },
