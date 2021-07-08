@@ -1,7 +1,7 @@
 ---
 home: true
 heroText: 多平台快速开发的UI框架
-tagline: UCT UI，是uni-app生态最优秀的UI框架，全面的组件和便捷的工具会让您信手拈来，如鱼得水
+tagline: UCT UI，是基于uView的uni-app生态最优秀的UI业务框架，全面的组件和便捷的工具会让您信手拈来，如鱼得水
 actionText: 快速上手 →
 actionLink: /components/
 features:
